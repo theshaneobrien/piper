@@ -46,14 +46,14 @@ pip3 install --upgrade wheel setuptools
 pip3 install -e .
 ```
 
-To do this in [conda](https://github.com/conda-forge/miniforge?tab=readme-ov-file#install):
+To do this in [conda](https://github.com/conda-forge/miniforge):
 
 ``` sh
 cd piper/src/python
 conda create --name piper-env -y
 conda activate piper-env
 conda install python==3.10.15 -y
-pip install '24.0.0'
+pip install --upgrade 'pip<24.1'
 pip install --upgrade wheel setuptools
 pip install -e .
 ```
