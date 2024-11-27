@@ -4,6 +4,9 @@ Check out a [video training guide by Thorsten Müller](https://www.youtube.com/w
 
 For Windows, see [ssamjh's guide using WSL](https://ssamjh.nz/create-custom-piper-tts-voice/)
 
+Shane's Notes:
+I've updated the requirements to work with the latest torch as of this time (2.5.1) cuda 11.8, this works on linux with my 4090. It will produce a lot of warnings about deprecations but most of these can be ignored.
+
 ---
 
 Training a voice for Piper involves 3 main steps:
@@ -26,6 +29,8 @@ Choices must be made at each step, including:
 
 Start by installing system dependencies:
 
+Shane's Note: I have only successfully got this working with python 3.10.15 so you can either modify the next step to install your specific version of python or see my conda virtual environment after.
+
 ``` sh
 sudo apt-get install python3-dev
 ```
@@ -41,7 +46,28 @@ pip3 install --upgrade wheel setuptools
 pip3 install -e .
 ```
 
+To do this in [conda](https://github.com/conda-forge/miniforge?tab=readme-ov-file#install):
+
+``` sh
+cd piper/src/python
+conda create --name piper-env -y
+conda activate piper-env
+conda install python==3.10.15 -y
+pip install '24.0.0'
+pip install --upgrade wheel setuptools
+pip install -e .
+```
+
 Run the `build_monotonic_align.sh` script in the `src/python` directory to build the extension.
+
+If the above doesn't work (I was getting an error with Cythonize being missing, despite it definitely being install):
+
+``` sh
+cd piper_train/vits/monotonic_align
+mkdir -p monotonic_align
+cythonize -i core.pyx
+mv core*.so monotonic_align/
+```
 
 Ensure you have [espeak-ng](https://github.com/espeak-ng/espeak-ng/) installed (`sudo apt-get install espeak-ng`).
 
